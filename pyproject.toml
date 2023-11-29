@@ -1,0 +1,63 @@
+# This file is the central configuration file for a python project.
+# It specified the required python dependencies/packages.
+# It also contains settings for tools like pylint, pytest.
+#
+# In order to install all required packages use the command
+#
+# pip install .[dev]
+#
+# Also see
+# * pyproject.toml vs requirements.txt:
+# https://stackoverflow.com/questions/74508024/is-requirements-txt-still-needed-when-using-pyproject-toml
+# * poetry vs. pip:
+# https://gitlab.cc-asp.fraunhofer.de/isi/micat/-/issues/99
+
+[build-system]
+requires = ['hatchling']
+build-backend = 'hatchling.build'
+
+
+[project]
+name = 'pip_package_demo'
+version = '0.0.1'
+requires-python = '>=3.11'
+license = { text = 'GNU Affero General Public License v3 or later (AGPLv3+)' }
+
+[tool.hatch.metadata]
+allow-direct-references = 'true'
+
+dependencies = [  
+	'folium==0.13.0',	
+]
+
+
+[project.optional-dependencies]
+lint = [
+    'pylint==2.17.5',   
+]
+
+format = [
+    'black[d]==23.7.0',
+]
+
+test = [
+    'pytest==7.4.0',
+    'pytest-cov==4.1.0',
+    'coverage==7.2.7',
+    'mock==5.1.0',
+]
+
+dev = ['steamlit_demo[lint, format, test]']
+
+[tool.hatch.build.targets.wheel]
+packages = ['src/pip_package_demo']
+
+#[tool.hatch.build.targets.wheel.force-include]  # could be used to include extra static files
+#'root_static_dir' = 'fhg_isi/static'  # maps from workspace\fhg_isi\root_statio_dir to .../site_packages/fhg_isi/static
+
+[tool.black]
+line-length = 120
+skip-string-normalization = true
+
+[tool.isort]
+profile = 'black'
